@@ -1,0 +1,15 @@
+<h1>Edit Debit</h1>
+
+<%= form_with(model: [@employee, @debit], local: true) do |f| %>
+  <div class="field">
+    <%= f.label :amount %>
+    <%= f.number_field :amount, step: :any, value: @debit.amount %>
+  </div>
+  <div class="field">
+    <%= f.label :description %>
+    <%= f.text_area :description, value: @debit.description %>
+  </div>
+  <%= f.submit 'Update Debit' %>
+<% end %>
+
+<%= link_to 'Back to Employee', @employee %>

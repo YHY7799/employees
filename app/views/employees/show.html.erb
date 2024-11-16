@@ -1,0 +1,43 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @employee %>
+
+
+<%= form_with(model: [@employee, Debit.new], local: true) do |f| %>
+  <div class="field">
+    <%= f.label :amount %>
+    <%= f.number_field :amount, step: :any %>
+  </div>
+
+  <div class="field">
+    <%= f.label :description %>
+    <%= f.text_area :description %>
+  </div>
+
+  <%= f.submit 'Add Debit' %>
+<% end %>
+
+<div class="debits-list">
+  <% @employee.debits.each do |debit| %>
+    <div class="debit-item">
+      <p><strong>Amount:</strong> <%= number_to_currency(debit.amount) %></p>
+      <p><strong>Description:</strong> <%= debit.description %></p>
+      <%= link_to 'Delete', employee_debit_path(@employee, debit), 
+            method: :delete, 
+            data: { confirm: 'Are you sure?' } %>
+
+      <%= link_to 'Edit', edit_employee_debit_path(@employee, debit) %>
+
+    </div>
+  <% end %>
+</div>
+
+
+
+
+<div>
+  <%= link_to "Edit this employee", edit_employee_path(@employee) %> |
+  <%= link_to "Back to employees", employees_path %>
+
+  <%= button_to "Destroy this employee", @employee, method: :delete %>
+</div>
