@@ -1,23 +1,26 @@
 <div id="<%= dom_id employee %>">
-  <p>
-    <strong>Name:</strong>
-    <%= employee.name %>
-  </p>
-
-  <p>
-    <strong>Salary:</strong>
-    <%= employee.salary %>
-  </p>
-
-  <p>
-    <strong>Allowance:</strong>
-    <%= employee.allowance %>
-  </p>
-
-  <p>
-    <strong>Comment:</strong>
-    <%= employee.comment %>
-  </p>
-
-  
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Salary</th>
+        <th>Allowance</th>
+        <th>Total Salary</th>
+        <th>Comment</th>
+        <th>Debits</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= employee.name %></td>
+        <td><%= employee.salary %></td>
+        <td><%= employee.allowance %></td>
+        <td><%= employee.gross_salary %></td>
+        <td><%= employee.comment %></td>
+        <td><%= number_to_currency(employee.total_debits, unit: "SAR ") %></td>
+        <td><%= link_to "Show this employee", employee %></td>
+      </tr>
+    </tbody>
+  </table>
 </div>

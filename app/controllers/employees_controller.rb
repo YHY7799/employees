@@ -10,6 +10,7 @@ class EmployeesController < ApplicationController
   def show
     @employee = Employee.includes(:debits).find(params[:id])
     @debit = Debit.new
+    @debit.destroy!
   end
 
   # GET /employees/new

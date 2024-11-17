@@ -1,14 +1,47 @@
 <p style="color: green"><%= notice %></p>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Employees</h1>
+      <%= link_to new_employee_path, class: "btn btn-primary" do %>
+        <i class="bi bi-plus-circle me-1"></i> New Employee
+      <% end %>
+  </div>
 
-<h1>Employees</h1>
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th class="bg-primary text-white">Name</th>
+      <th class="bg-primary text-white">Salary</th>
+      <th class="bg-primary text-white">Allowance</th>
+      <th class="bg-primary text-white">Total Salary</th>
+      <th class="bg-primary text-white">Debits</th>
+      <th class="bg-primary text-white">Comment</th>
+      <th class="bg-primary text-white">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @employees.each do |employee| %>
+      <tr>
+        <td><%= employee.name %></td>
+        <td><%= number_to_currency(employee.salary, unit: "SAR ") %></td>
+        <td><%= number_to_currency(employee.allowance, unit: "SAR ") %></td>
+        <td><%= number_to_currency(employee.gross_salary, unit: "SAR ") %></td>
+        <td><%= number_to_currency(employee.total_debits, unit: "SAR ") %></td>
+        <td><%= employee.comment %></td>
+        <td><%= link_to "Show", employee, class: "btn btn-primary" %>
+            <%= link_to "Edit", edit_employee_path(employee), class: "btn btn-warning btn-sm ms-1" %>
+        </td>
+        
+      </tr>
+    <% end %>
+  </tbody>
+  <tfoot> <tr>
+            <th colspan="1">Total</th>
+            <td><%= number_to_currency(@employees.sum(&:salary), unit: "SAR ") %></td>
+            <td><%= number_to_currency(@employees.sum(&:allowance), unit: "SAR ") %></td>
+            <td><%= number_to_currency(@employees.sum(&:gross_salary), unit: "SAR ") %></td> 
+            <td><%= number_to_currency(@employees.sum(&:total_debits), unit: "SAR ") %></td> 
+          </tr>
+    </tfoot>
+</table>
 
-<div id="employees">
-  <% @employees.each do |employee| %>
-    <%= render employee %>
-    <p>
-      <%= link_to "Show this employee", employee %>
-    </p>
-  <% end %>
-</div>
 
-<%= link_to "New employee", new_employee_path %>

@@ -25,7 +25,7 @@ class DebitsController < ApplicationController
   end
 
   def destroy
-    @debit.destroy
+    @debit.destroy!
     redirect_to @employee, notice: 'Debit was successfully deleted.'
   end
 

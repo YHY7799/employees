@@ -1,43 +1,139 @@
-<p style="color: green"><%= notice %></p>
-
-<%= render @employee %>
-
-
-<%= form_with(model: [@employee, Debit.new], local: true) do |f| %>
-  <div class="field">
-    <%= f.label :amount %>
-    <%= f.number_field :amount, step: :any %>
+<% if notice %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <%= notice %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
-
-  <div class="field">
-    <%= f.label :description %>
-    <%= f.text_area :description %>
-  </div>
-
-  <%= f.submit 'Add Debit' %>
 <% end %>
 
-<div class="debits-list">
-  <% @employee.debits.each do |debit| %>
-    <div class="debit-item">
-      <p><strong>Amount:</strong> <%= number_to_currency(debit.amount) %></p>
-      <p><strong>Description:</strong> <%= debit.description %></p>
-      <%= link_to 'Delete', employee_debit_path(@employee, debit), 
-            method: :delete, 
-            data: { confirm: 'Are you sure?' } %>
-
-      <%= link_to 'Edit', edit_employee_debit_path(@employee, debit) %>
-
+<%# Employee Information Card %>
+<div class="card mb-4">
+  <div class="card-header bg-primary text-white">
+    <h4 class="card-title mb-0">Employee Details</h4>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <table class="table table-borderless">
+          <tr>
+            <th class="text-muted">Name:</th>
+            <td class="fw-bold"><%= @employee.name %></td>
+          </tr>
+          <tr>
+            <th class="text-muted">Basic Salary:</th>
+            <td><%= number_to_currency(@employee.salary, unit: "SAR ") %></td>
+          </tr>
+          <tr>
+            <th class="text-muted">Allowance:</th>
+            <td><%= number_to_currency(@employee.allowance, unit: "SAR ") %></td>
+          </tr>
+          <tr>
+            <th class="text-muted">Total Salary:</th>
+            <td><%= number_to_currency(@employee.gross_salary, unit: "SAR ") %></td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <table class="table table-borderless">
+          <tr>
+            <th class="text-muted">Net Salary:</th>
+            <td class="fw-bold"><%= number_to_currency(@employee.total_salary, unit: "SAR ") %></td>
+          </tr>
+          <tr>
+            <th class="text-muted">Comment:</th>
+            <td><%= @employee.comment %></td>
+          </tr>
+          <tr>
+            <th class="text-muted">Total Debits</th>
+            <td><%= number_to_currency(@employee.total_debits, unit: "SAR ") %></td>
+          </tr>
+          <tr>
+            <th class="text-muted">Joined:</th>
+            <td><%= @employee.created_at.strftime("%B %d, %Y") %></td>
+          </tr>
+        </table>
+      </div>
     </div>
-  <% end %>
+  </div>
 </div>
 
+<%# Add New Debit Card %>
+<div class="card mb-4">
+  <div class="card-header">
+    <h4 class="card-title mb-0">Add New Debit</h4>
+  </div>
+  <div class="card-body">
+    <%= form_with(model: [@employee, Debit.new], local: true, class: "row g-3") do |f| %>
+      <div class="col-md-6">
+        <%= f.label :amount, class: "form-label" %>
+        <div class="input-group">
+          <span class="input-group-text">SAR</span>
+          <%= f.number_field :amount, step: :any, class: "form-control", placeholder: "Enter amount" %>
+        </div>
+      </div>
 
+      <div class="col-12">
+        <%= f.label :description, class: "form-label" %>
+        <%= f.text_area :description, class: "form-control", rows: 3, placeholder: "Enter description" %>
+      </div>
 
+      <div class="col-12">
+        <%= f.submit 'Add Debit', class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
 
-<div>
-  <%= link_to "Edit this employee", edit_employee_path(@employee) %> |
-  <%= link_to "Back to employees", employees_path %>
+<%# Debit History Card %>
+<div class="card mb-4">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h4 class="card-title mb-0">Debit History</h4>
+    <span class="badge bg-primary">Total: <%= number_to_currency(@employee.debits.sum(:amount), unit: "SAR ") %></span>
+  </div>
+  <div class="card-body">
+    <% if @employee.debits.any? %>
+      <div class="row">
+        <% @employee.debits.each do |debit| %>
+          <div class="col-md-6 mb-3">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title"><%= number_to_currency(debit.amount, unit: "SAR ") %></h5>
+                <p class="card-text"><%= debit.description %></p>
+                <small class="text-muted">Added on: <%= debit.created_at.strftime("%B %d, %Y") %>
+                <% if debit.updated_at != debit.created_at %><br>
+                  Updated on: <%= debit.updated_at.strftime("%B %d, %Y") %> 
+                <% end %></small>
+                <div class="d-flex gap-2 mt-2">
+                  <%= link_to 'Edit', edit_employee_debit_path(@employee, debit), 
+                      class: "btn btn-sm btn-outline-primary" %>
+                  <%= button_to 'Delete', employee_debit_path(@employee, debit), 
+                      method: :delete, 
+                      class: "btn btn-sm btn-outline-danger",
+                      form: { class: "d-inline" },
+                      data: { confirm: "Are you sure?" } %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-muted mb-0">No debits recorded yet.</p>
+    <% end %>
+  </div>
+</div>
 
-  <%= button_to "Destroy this employee", @employee, method: :delete %>
+<%# Action Buttons %>
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="d-flex gap-2">
+      <%= link_to "Edit Employee", edit_employee_path(@employee), 
+          class: "btn btn-secondary" %>
+      <%= link_to "Back to Employees", employees_path, 
+          class: "btn btn-primary" %>
+      <%= button_to "Delete Employee", @employee, 
+          method: :delete, 
+          class: "btn btn-danger ms-auto",
+          data: { confirm: "Are you sure you want to delete this employee?" } %>
+    </div>
+  </div>
 </div>
