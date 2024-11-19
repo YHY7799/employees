@@ -8,9 +8,10 @@ class EmployeesController < ApplicationController
 
   # GET /employees/1 or /employees/1.json
   def show
-    @employee = Employee.includes(:debits).find(params[:id])
+    @employee = Employee.includes(:debits, :overtimes).find(params[:id])
     @debit = Debit.new
-    @debit.destroy!
+    @overtime = Overtime.new
+    
   end
 
   # GET /employees/new
@@ -68,6 +69,6 @@ class EmployeesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def employee_params
-      params.require(:employee).permit(:name, :salary, :allowance, :comment, debits_attributes: %i[amount, description, id])
+      params.require(:employee).permit(:name, :salary, :allowance, :comment)
     end
 end

@@ -1,0 +1,37 @@
+<div class="card">
+ <div class="card-header bg-primary text-white">
+   <h4 class="card-title mb-0">Edit Overtime</h4>
+ </div>
+ 
+ <div class="card-body">
+   <%= form_with(model: [@employee, @overtime], local: true, class: "row g-3") do |f| %>
+     <div class="col-md-6">
+       <%= f.label :hours_value, class: "form-label" %>
+       <div class="input-group">
+         <span class="input-group-text">SAR</span>
+         <%= f.number_field :hours_value, 
+             step: :any, 
+             value: @overtime.hours_value, 
+             class: "form-control",
+             placeholder: "Enter hours value" %>
+       </div>
+     </div>
+
+     <div class="col-12">
+       <%= f.label :time, class: "form-label" %>
+       <%= f.datetime_field :time, 
+           value: @overtime.time, 
+           class: "form-control",
+           rows: 3,
+           placeholder: "Enter time" %>
+     </div>
+
+     <div class="col-12">
+       <div class="d-flex gap-2">
+         <%= f.submit 'Update Overtime', class: "btn btn-primary" %>
+         <%= link_to 'Back to Employee', @employee, class: "btn btn-secondary" %>
+       </div>
+     </div>
+   <% end %>
+ </div>
+</div>

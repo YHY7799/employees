@@ -1,47 +1,55 @@
 <p style="color: green"><%= notice %></p>
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>Employees</h1>
-      <%= link_to new_employee_path, class: "btn btn-primary" do %>
-        <i class="bi bi-plus-circle me-1"></i> New Employee
-      <% end %>
-  </div>
-
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1>Employees</h1>
+  <%= link_to new_employee_path, class: "btn btn-sm btn-outline-primary" do %>
+    <i class="bi bi-plus-circle me-1"></i> New Employee
+  <% end %>
+</div>
 <table class="table table-bordered table-striped">
   <thead>
-    <tr>
-      <th class="bg-primary text-white">Name</th>
-      <th class="bg-primary text-white">Salary</th>
-      <th class="bg-primary text-white">Allowance</th>
-      <th class="bg-primary text-white">Total Salary</th>
-      <th class="bg-primary text-white">Debits</th>
-      <th class="bg-primary text-white">Comment</th>
-      <th class="bg-primary text-white">Action</th>
+    <tr class="table-primary">
+      <th>NO</th>
+      <th>Name</th>
+      <th>Salary</th>
+      <th>Allowance</th>
+      <th>Total Salary</th>
+      <th>Debits</th>
+      <th>Net Salary</th>
+      <th>Comment</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
+    <% counter = 1 %>
     <% @employees.each do |employee| %>
       <tr>
+        <td><%= counter %></td>
         <td><%= employee.name %></td>
         <td><%= number_to_currency(employee.salary, unit: "SAR ") %></td>
         <td><%= number_to_currency(employee.allowance, unit: "SAR ") %></td>
         <td><%= number_to_currency(employee.gross_salary, unit: "SAR ") %></td>
         <td><%= number_to_currency(employee.total_debits, unit: "SAR ") %></td>
+        <td><%= number_to_currency(employee.total_salary, unit: "SAR ") %></td>
         <td><%= employee.comment %></td>
-        <td><%= link_to "Show", employee, class: "btn btn-primary" %>
-            <%= link_to "Edit", edit_employee_path(employee), class: "btn btn-warning btn-sm ms-1" %>
+        <td class=""><%= link_to "Show", employee, class: "btn btn-sm btn-outline-primary me-2" %>
+          <%= link_to "Edit", edit_employee_path(employee), class: "btn btn-sm btn-outline-primary" %>
         </td>
-        
+        <% counter += 1 %>
       </tr>
     <% end %>
   </tbody>
-  <tfoot> <tr>
-            <th colspan="1">Total</th>
-            <td><%= number_to_currency(@employees.sum(&:salary), unit: "SAR ") %></td>
-            <td><%= number_to_currency(@employees.sum(&:allowance), unit: "SAR ") %></td>
-            <td><%= number_to_currency(@employees.sum(&:gross_salary), unit: "SAR ") %></td> 
-            <td><%= number_to_currency(@employees.sum(&:total_debits), unit: "SAR ") %></td> 
-          </tr>
-    </tfoot>
+  <tfoot> 
+    <tr class="table-secondary fw-bold" >
+      <th >Total</th>
+      <td class="text-center">-</td>
+      <td><%= number_to_currency(@employees.sum(&:salary), unit: "SAR ") %></td>
+      <td><%= number_to_currency(@employees.sum(&:allowance), unit: "SAR ") %></td>
+      <td><%= number_to_currency(@employees.sum(&:gross_salary), unit: "SAR ") %></td>
+      <td><%= number_to_currency(@employees.sum(&:total_debits), unit: "SAR ") %></td>
+      <td><%= number_to_currency(@employees.sum(&:total_salary), unit: "SAR ") %></td>
+      <td class="text-center">-</td>
+      <td class="text-center">-</td>
+      
+    </tr>
+  </tfoot>
 </table>
-
-
