@@ -1,0 +1,17 @@
+<h1>Create Monthly Records</h1>
+
+<%= form_tag create_monthly_mains_path, method: :post do %>
+  <div class="field">
+    <%= label_tag :year %>
+    <%= select_tag :year, options_for_select(@years, Date.current.year) %>
+  </div>
+
+  <div class="field">
+    <%= label_tag :month %>
+    <%= select_tag :month, options_for_select(@months, Date.current.month) %>
+  </div>
+
+  <div class="actions">
+    <%= submit_tag "Create Monthly Records" %>
+  </div>
+<% end %>

@@ -1,3 +1,3 @@
 class Debit < ApplicationRecord
-  belongs_to :employee, inverse_of: :debits 
+  belongs_to :main, inverse_of: :debits 
 end

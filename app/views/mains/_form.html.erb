@@ -1,0 +1,44 @@
+<%= form_with(model: Main.new, url: mains_path) do |form| %>
+  <% @mains.each_with_index do |main, index| %>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Record #<%= index + 1 %></h5>
+        <%= form.fields_for "mains_attributes[#{index}]", main do |main_form| %>
+          <div class="mb-3">
+            <%= main_form.label :month, class: "form-label" %>
+            <%= main_form.date_select :month, { order: [:month] }, class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= main_form.label :year, class: "form-label" %>
+            <%= main_form.date_select :year, { order: [:year] }, class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= main_form.label :name, class: "form-label" %>
+            <%= main_form.text_field :name, class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= main_form.label :salary, class: "form-label" %>
+            <%= main_form.number_field :salary, class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= main_form.label :allowance, class: "form-label" %>
+            <%= main_form.number_field :allowance, class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= main_form.label :comment, class: "form-label" %>
+            <%= main_form.text_area :comment, class: "form-control" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.submit 'Create All Records', class: "btn btn-primary" %>
+  </div>
+<% end %>

@@ -1,0 +1,40 @@
+<h1>Edit Employee Record</h1>
+
+<%= form_with(model: @main, local: true) do |form| %>
+  <% if @main.errors.any? %>
+    <div class="alert alert-danger">
+      <h2><%= pluralize(@main.errors.count, "error") %> prohibited this record from being saved:</h2>
+
+      <ul>
+        <% @main.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :salary, class: "form-label" %>
+    <%= form.number_field :salary, step: '0.01', class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :allowance, class: "form-label" %>
+    <%= form.number_field :allowance, step: '0.01', class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :comment, class: "form-label" %>
+    <%= form.text_area :comment, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.submit "Update Record", class: "btn btn-primary" %>
+    <%= link_to 'Back to List', mains_path(year: @main.year, month: @main.month), class: "btn btn-secondary" %>
+  </div>
+<% end %>

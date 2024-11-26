@@ -1,0 +1,220 @@
+<% if notice %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <%= notice %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
+<%# main Information Card %>
+<div class="card mb-4">
+  <div class="card-header bg-light ">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h4 class="card-title mb-0 fw-bold"><%= @main.name %>'s Details</h4>
+      <span><%= link_to "Back to mains", mains_path, class: "btn btn-sm btn-outline-secondary" %></span>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <table class="table table-borderless">
+          <tr>
+            <th class="text-muted">main Number:</th>
+            <td class="fw-bold"><%= @main.id %></td>
+          </tr>
+          <tr>
+            <th class="text-muted">Basic Salary:</th>
+            <td><%= number_to_currency(@main.salary, unit: "SAR ") %></td>
+          </tr>
+          <tr>
+            <th class="text-muted">Allowance:</th>
+            <td><%= number_to_currency(@main.allowance, unit: "SAR ") %></td>
+          </tr>
+          <tr>
+            <th class="text-muted">Total Salary:</th>
+            <td><%= number_to_currency(@main.gross_salary, unit: "SAR ") %></td>
+          </tr>
+          <tr>
+            <th class="text-muted">Total Overtime:</th>
+            <td><%= number_to_currency(@main.overtime_value, unit: "SAR ") %></td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <table class="table table-borderless">
+          <tr>
+            <th class="text-muted">Net Salary:</th>
+            <td class="fw-bold"><%= number_to_currency(@main.total_salary, unit: "SAR ") %></td>
+          </tr>
+          
+          <tr>
+            <th class="text-muted">Total Debits</th>
+            <td><%= number_to_currency(@main.total_debits, unit: "SAR ") %></td>
+          </tr>
+          <tr>
+            <tr>
+            <th class="text-muted">Salary + Overtime</th>
+            <td><%= number_to_currency(@main.overtime_salary, unit: "SAR ") %></td>
+          </tr>
+          <tr>
+            <th class="text-muted">Joined:</th>
+            <td><%= @main.created_at.strftime("%B %d, %Y") %></td>
+          </tr>
+          <tr>
+            <th class="text-muted">Comment:</th>
+            <td><%= @main.comment %></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<%# Add New Debit Card %>
+<div class="card mb-4">
+  <div class="card-header">
+    <h4 class="card-title mb-0">Add New Debit</h4>
+  </div>
+  <div class="card-body">
+    <%= form_with(model: [@main, Debit.new], local: true, class: "row g-3") do |f| %>
+      <div class="col-md-6">
+        <%= f.label :amount, class: "form-label" %>
+        <div class="input-group">
+          <span class="input-group-text">SAR</span>
+          <%= f.number_field :amount, step: :any, class: "form-control", placeholder: "Enter amount" %>
+        </div>
+      </div>
+      <div class="col-12">
+        <%= f.label :description, class: "form-label" %>
+        <%= f.text_area :description, class: "form-control", rows: 3, placeholder: "Enter description" %>
+      </div>
+      <div class="col-12">
+        <%= f.submit 'Add Debit', class: "btn btn-sm btn-outline-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div><br><br>
+<%# Debit History Card %>
+<div class="table-responsive text-center bg-secondary">
+  <h2 class="text-white">Debit History</h2>
+</div>
+<div class="table-responsive">
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Amount (SAR)</th>
+        <th>Description</th>
+        <th>Added On</th>
+        <th>Updated On</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @main.debits.any? %>
+        <% @main.debits.each do |debit| %>
+          <tr>
+            <td><%= number_to_currency(debit.amount, unit: "SAR ") %></td>
+            <td><%= debit.description %></td>
+            <td><%= debit.created_at&.strftime("%B %d, %Y") || "Date not available" %></td>
+            <td><%= debit.updated_at&.strftime("%B %d, %Y") || "Date not available" %></td>
+            <td>
+              <div class="d-flex gap-2">
+                <%= link_to 'Edit', edit_main_debit_path(@main, debit), class: "btn btn-sm btn-outline-primary" %>
+                <%= button_to 'Delete', main_debit_path(@main, debit), method: :delete, class: "btn btn-sm btn-outline-danger", form: { class: "d-inline" }, data: { confirm: "Are you sure?" } %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="5" class="text-center text-muted">No debits recorded yet.</td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4" class="text-right">Total:</td>
+        <td><%= number_to_currency(@main.debits.sum(:amount), unit: "SAR ") %></td>
+      </tr>
+    </tfoot>
+  </table>
+</div><br><br>
+<%# Add New Overtime Card %>
+<div class="card mb-4">
+  <div class="card-header">
+    <h4 class="card-title mb-0">Add New Overtime</h4>
+  </div>
+  <div class="card-body">
+    <%= form_with(model: [@main, Overtime.new], local: true, class: "row g-3") do |f| %>
+      <div class="col-md-6">
+        <div class="input-group">
+          <span class="input-group-text">Hours</span>
+          <%= f.number_field :hours_value, step: :any, class: "form-control", placeholder: "Enter number of hours" %>
+        </div>
+      </div>
+      <div class="col-12">
+        <%= f.label :Date, class: "form-label" %>
+        <%= f.date_select :time, { order: [:day, :month, :year] },class: "form-select"  %>
+      </div>
+      <div class="col-12">
+        <%= f.submit 'Add Overtime', class: "btn btn-sm btn-outline-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div><br><br>
+<%# Overtime History Card %>
+<div class="table-responsive text-center bg-secondary ">
+  <h2 class="text-white">Overtime History</h2>
+</div>
+<div class="table-responsive ">
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Hours</th>
+        <th>Overtime Date</th>
+        <th>Added On</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @main.overtimes.any? %>
+        <% @main.overtimes.each do |overtime| %>
+          <tr>
+            <td><%= overtime.hours_value %></td>
+            <td><%= overtime.time.strftime("%B %d, %Y") %></td>
+            <td><%= overtime.created_at.strftime("%B %d, %Y") %></td>
+            <td>
+              <div class="d-flex gap-2">
+                <%= link_to 'Edit', edit_main_overtime_path(@main, overtime), class: "btn btn-sm btn-outline-primary" %>
+                <%= button_to 'Delete', main_overtime_path(@main, overtime), method: :delete, class: "btn btn-sm btn-outline-danger", form: { class: "d-inline" }, data: { confirm: "Are you sure?" } %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="5" class="text-center text-muted">No overtimes recorded yet.</td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot class="text-center">
+      <tr class="table-active ">
+        <td colspan="2" class="text-bold">Total Hours:</td>
+        <td class="text-bold"><%= @main.overtimes.sum(:hours_value) %></td>
+        <td colspan="2" class="text-bold">Payment Amount</td>
+        <td class="text-bold"><%= number_to_currency(@main.overtime_value, unit: "SAR ") %></td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+<%# Action Buttons %>
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="d-flex gap-2">
+      <%= link_to "Edit main", edit_main_path(@main), 
+          class: "btn btn-sm  btn-outline-secondary" %>
+      <%= link_to "Back to mains", mains_path, 
+          class: "btn btn-sm  btn-outline-primary" %>
+      <%= button_to "Delete main", @main, 
+          method: :delete, 
+          class: "btn btn-sm  btn-outline-danger ms-auto",
+          data: { confirm: "Are you sure you want to delete this main?" } %>
+    </div>
+  </div>
+</div>

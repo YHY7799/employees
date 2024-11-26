@@ -1,0 +1,80 @@
+
+<% if notice %>
+  <div style="color: green"><%= notice %></div>
+<% end %>
+
+<% if alert %>
+  <div style="color: red"><%= alert %></div>
+<% end %><div class="d-flex justify-content-between align-items-center mb-4">
+    <h1> Employee Table for: <%= @current_year %> <%=  Date::MONTHNAMES[@current_month]  %></h1>
+
+    <%= link_to 'Create New Monthly Records', new_main_path, class: "btn btn-sm btn-outline-primary" %>
+</div>
+
+
+<div class="filters">
+  <%= form_tag mains_path, method: :get do %>
+    <%= select_tag :year, 
+        options_for_select(@years, @current_year),
+        onchange: 'this.form.submit()' %>
+    
+    <%= select_tag :month,
+        options_for_select((1..12).map { |m| [Date::MONTHNAMES[m], m] }, @current_month),
+        onchange: 'this.form.submit()' %>
+  <% end %>
+</div>
+
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr class="table-primary">
+      <th>NO</th>
+      <th>Name</th>
+      <th>Salary</th>
+      <th>Allowance</th>
+      <th>Total salary</th>
+      <th>Debits</th>
+      <th>Net Salary</th>
+      <th>Comment</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% counter = 1 %>
+    <% @mains.each do |main| %>
+    
+      <tr>
+        <td><%= counter %></td>
+        <td><%= main.name %></td>
+        <td><%= number_to_currency(main.salary, unit: "SAR ")  %></td>
+        <td><%= number_to_currency(main.allowance, unit: "SAR ") %></td>
+        <td><%= number_to_currency(main.gross_salary, unit: "SAR ") %></td>
+        <td><%= number_to_currency(main.total_debits, unit: "SAR ") %></td>
+        <td><%= number_to_currency(main.total_salary, unit: "SAR ") %></td>
+        <td><%= main.comment %></td>
+        <td>
+          <%= link_to 'Show', main, class: "btn btn-sm btn-outline-primary me-2" %>
+          <%= link_to 'Edit', edit_main_path(main), class: "btn btn-sm btn-outline-primary me-2" %>
+          <%= link_to 'Delete', main, class: "btn btn-sm btn-outline-danger me-2", method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+        <% counter += 1 %>
+      </tr>
+    <% end %>
+
+  </tbody>
+  <tfoot> 
+    <tr class="table-secondary fw-bold" >
+      <th >Total</th>
+      <td class="text-center">-</td>
+      <td><%= number_to_currency(@mains.sum(&:salary), unit: "SAR ") %></td>
+      <td><%= number_to_currency(@mains.sum(&:allowance), unit: "SAR ") %></td>
+      <td><%= number_to_currency(@mains.sum(&:gross_salary), unit: "SAR ") %></td>
+      <td><%= number_to_currency(@mains.sum(&:total_debits), unit: "SAR ") %></td>
+      <td><%= number_to_currency(@mains.sum(&:total_salary), unit: "SAR ") %></td>
+      <td class="text-center">-</td>
+      <td class="text-center">-</td>
+      
+    </tr>
+  </tfoot>
+</table>

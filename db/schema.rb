@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_17_135114) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_25_135320) do
   create_table "debits", force: :cascade do |t|
     t.integer "amount"
     t.text "description"
-    t.integer "employee_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["employee_id"], name: "index_debits_on_employee_id"
+    t.integer "main_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["main_id"], name: "index_debits_on_main_id"
   end
 
   create_table "employees", force: :cascade do |t|
@@ -29,15 +29,26 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_17_135114) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "overtimes", force: :cascade do |t|
-    t.integer "hours_value"
-    t.datetime "time"
-    t.integer "employee_id", null: false
+  create_table "mains", force: :cascade do |t|
+    t.integer "month"
+    t.integer "year"
+    t.string "name"
+    t.integer "salary"
+    t.integer "allowance"
+    t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["employee_id"], name: "index_overtimes_on_employee_id"
   end
 
-  add_foreign_key "debits", "employees"
-  add_foreign_key "overtimes", "employees"
+  create_table "overtimes", force: :cascade do |t|
+    t.integer "hours_value"
+    t.date "time"
+    t.integer "main_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["main_id"], name: "index_overtimes_on_main_id"
+  end
+
+  add_foreign_key "debits", "mains"
+  add_foreign_key "overtimes", "mains"
 end

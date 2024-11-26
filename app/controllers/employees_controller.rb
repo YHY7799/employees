@@ -8,10 +8,8 @@ class EmployeesController < ApplicationController
 
   # GET /employees/1 or /employees/1.json
   def show
-    @employee = Employee.includes(:debits, :overtimes).find(params[:id])
-    @debit = Debit.new
-    @overtime = Overtime.new
-    
+    @employee = Employee.find(params[:id])
+   
   end
 
   # GET /employees/new

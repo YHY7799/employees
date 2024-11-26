@@ -13,7 +13,6 @@
       <th>Salary</th>
       <th>Allowance</th>
       <th>Total Salary</th>
-      <th>Debits</th>
       <th>Net Salary</th>
       <th>Comment</th>
       <th>Action</th>
@@ -28,7 +27,6 @@
         <td><%= number_to_currency(employee.salary, unit: "SAR ") %></td>
         <td><%= number_to_currency(employee.allowance, unit: "SAR ") %></td>
         <td><%= number_to_currency(employee.gross_salary, unit: "SAR ") %></td>
-        <td><%= number_to_currency(employee.total_debits, unit: "SAR ") %></td>
         <td><%= number_to_currency(employee.total_salary, unit: "SAR ") %></td>
         <td><%= employee.comment %></td>
         <td class=""><%= link_to "Show", employee, class: "btn btn-sm btn-outline-primary me-2" %>
@@ -45,7 +43,6 @@
       <td><%= number_to_currency(@employees.sum(&:salary), unit: "SAR ") %></td>
       <td><%= number_to_currency(@employees.sum(&:allowance), unit: "SAR ") %></td>
       <td><%= number_to_currency(@employees.sum(&:gross_salary), unit: "SAR ") %></td>
-      <td><%= number_to_currency(@employees.sum(&:total_debits), unit: "SAR ") %></td>
       <td><%= number_to_currency(@employees.sum(&:total_salary), unit: "SAR ") %></td>
       <td class="text-center">-</td>
       <td class="text-center">-</td>

@@ -1,7 +1,5 @@
 class Employee < ApplicationRecord
-  has_many :debits, dependent: :destroy, inverse_of: :employee
-  has_many :overtimes, dependent: :destroy, inverse_of: :employee
-
+  
   WORKING_DAYS = 30
   WORKING_HOURS = 9
 
@@ -9,12 +7,10 @@ class Employee < ApplicationRecord
     salary.to_f + allowance.to_f
   end
 
-  def total_debits
-    debits.sum(:amount)
-  end
+ 
 
   def total_salary
-    gross_salary - total_debits
+    gross_salary 
   end
 
   def employees_total_salaries
@@ -37,21 +33,29 @@ class Employee < ApplicationRecord
     daily_net_salary / WORKING_HOURS
   end
 
-  def overtime_value
-    if overtimes.sum(:hours_value) > 0
-      net_salary_hour + (0.5 * gross_salary_hour) * overtimes.sum(:hours_value)
-    else
-      0
+
+
+ 
+  
+  def self.create_monthly_snapshot(year, month)
+    transaction do
+      existing_records = Main.where(year: year, month: month).pluck(:name)
+      
+      Employee.all.each do |employee|
+        # Skip if record already exists for this employee in this month
+        next if existing_records.include?(employee.name)
+        
+        Main.create!(
+          name: employee.name,
+          salary: employee.salary,
+          allowance: employee.allowance,
+          comment: employee.comment,
+          year: year,
+          month: month
+        )
+      end
     end
-  
-  end 
-
-  def overtime_salary
-    overtime_value + total_salary
   end
-
-  
-  
 
 
 end
