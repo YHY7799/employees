@@ -50,9 +50,11 @@
             <td><%= number_to_currency(@main.total_debits, unit: "SAR ") %></td>
           </tr>
           <tr>
-            <tr>
             <th class="text-muted">Salary + Overtime</th>
             <td><%= number_to_currency(@main.overtime_salary, unit: "SAR ") %></td>
+          </tr>
+           <tr>
+            <th class="text-muted">Total Overtime</th>
           </tr>
           <tr>
             <th class="text-muted">Joined:</th>

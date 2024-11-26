@@ -63,4 +63,8 @@ class Main < ApplicationRecord
   def overtime_salary
     overtime_value + total_salary
   end
+
+  def total_salary_for_month_range(start_month, end_month)
+    main(:id).where(month: start_month..end_month).debits.sum(:amount)
+  end
 end

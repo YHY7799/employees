@@ -1,9 +1,4 @@
-import { Application } from "@hotwired/stimulus";
-
-const application = Application.start();
-
-// Configure Stimulus (optional settings)
-application.debug = false;
-window.Stimulus = application;
-
-export { application };
+import "@hotwired/turbo-rails"; // Turbo for handling SPA-like navigation
+import "./controllers";        // Loads all Stimulus controllers
+import "bootstrap";
+import "@popperjs/core";

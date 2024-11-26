@@ -13,6 +13,8 @@ class OvertimesController < ApplicationController
   end
 
   def edit
+    @main = Main.find(params[:main_id])
+    @overtime = @main.overtimes.find(params[:id])
   end 
 
   def update

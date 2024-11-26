@@ -4,7 +4,7 @@
  </div>
  
  <div class="card-body">
-   <%= form_with(model: [@mian, @overtime], local: true, class: "row g-3") do |f| %>
+   <%= form_with(model: [@main, @overtime], local: true, class: "row g-3") do |f| %>
      <div class="col-md-6">
        <%= f.label :hours_value, class: "form-label" %>
        <div class="input-group">
@@ -19,11 +19,7 @@
 
      <div class="col-12">
        <%= f.label :time, class: "form-label" %>
-       <%= f.datetime_field :time, 
-           value: @overtime.time, 
-           class: "form-control",
-           rows: 3,
-           placeholder: "Enter time" %>
+       <%= f.date_select :time, { order: [:day, :month, :year] },class: "form-select"  %>
      </div>
 
      <div class="col-12">
