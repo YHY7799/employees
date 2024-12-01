@@ -17,6 +17,16 @@ class DebitsController < ApplicationController
     @debit = @main.debits.find(params[:id])
   end 
 
+  def mark_fully_paid
+    result = @main.mark_fully_paid!
+    
+    if result
+      redirect_to @main, notice: 'Salary marked as fully paid.'
+    else
+      redirect_to @main, alert: 'Unable to mark salary as paid.'
+    end
+  end
+
   def update
     if @debit.update(debit_params)
       redirect_to @main, notice: 'Debit was successfully updated.'

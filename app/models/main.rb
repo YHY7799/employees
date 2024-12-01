@@ -1,6 +1,7 @@
 class Main < ApplicationRecord
   has_many :employees, dependent: :destroy, inverse_of: :main
   has_many :debits, dependent: :destroy, inverse_of: :main
+  has_many :opayments, dependent: :destroy, inverse_of: :main
   has_many :overtimes, dependent: :destroy, inverse_of: :main
   validates :year, presence: true, numericality: { only_integer: true }
   validates :month, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 12 }
@@ -26,6 +27,21 @@ class Main < ApplicationRecord
   def total_debits
     debits.sum(:amount)
   end
+  def fully_paid?
+    total_salary <= 0
+  end
+  
+  def mark_fully_paid!
+    # Create a debit for the remaining salary if not already fully paid
+    if !fully_paid?
+      debits.create(
+        amount: total_salary,
+        description: 'Full salary payment'
+      )
+    end
+  end
+
+  
 
   def total_salary
     gross_salary - total_debits
@@ -60,8 +76,12 @@ class Main < ApplicationRecord
   
   end 
 
+  def net_overtime
+    overtime_value - opayments.sum(:amount)
+  end
+
   def overtime_salary
-    overtime_value + total_salary
+    net_overtime + total_salary
   end
 
   def total_salary_for_month_range(start_month, end_month)

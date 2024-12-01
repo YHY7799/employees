@@ -5,20 +5,25 @@ class MainsController < ApplicationController
     @years = Main.distinct.pluck(:year).sort.reverse
     @current_year = params[:year]&.to_i || @years.first || Date.current.year
     @current_month = params[:month]&.to_i || Date.current.month
-    
     @mains = Main.monthly_records(@current_year, @current_month)
+    @current_main_id = @mains.first&.id
   end
+
+  
 
   def show
     @main = Main.includes(:debits, :overtimes).find(params[:id])
     @debit = Debit.new
     @overtime = Overtime.new
+    @opayment = Opayment.new
+    @payment_methods = Opayment.payment_methods.keys
   end
 
   def new
     @main = Main.new
     @years = (Date.current.year-5..Date.current.year+5).to_a
     @months = (1..12).map { |m| [Date::MONTHNAMES[m], m] }
+    
   end
 
   def create_monthly
@@ -67,7 +72,7 @@ class MainsController < ApplicationController
   end
 
   def destroy
-    @main.destroy
+    @main.destroy!
     redirect_to mains_url, notice: 'Record was successfully deleted.'
   end
 

@@ -42,6 +42,6 @@ class OvertimesController < ApplicationController
   end
 
   def overtime_params
-    params.require(:overtime).permit(:hours_value, :time)
+    params.require(:overtime).permit(:hours_value, :time, :payment)
   end
 end

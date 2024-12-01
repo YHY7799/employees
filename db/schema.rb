@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_25_135320) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_27_173034) do
   create_table "debits", force: :cascade do |t|
     t.integer "amount"
     t.text "description"
@@ -40,15 +40,27 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_25_135320) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "opayments", force: :cascade do |t|
+    t.integer "payment_method", default: 0
+    t.text "description"
+    t.integer "main_id", null: false
+    t.decimal "amount", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["main_id"], name: "index_opayments_on_main_id"
+  end
+
   create_table "overtimes", force: :cascade do |t|
     t.integer "hours_value"
     t.date "time"
     t.integer "main_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal "payment", precision: 10, scale: 2, default: "0.0"
     t.index ["main_id"], name: "index_overtimes_on_main_id"
   end
 
   add_foreign_key "debits", "mains"
+  add_foreign_key "opayments", "mains"
   add_foreign_key "overtimes", "mains"
 end

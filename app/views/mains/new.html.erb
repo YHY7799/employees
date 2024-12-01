@@ -1,17 +1,17 @@
-<h1>Create Monthly Records</h1>
+<h1 class="text-center mb-4">Create Salary Table</h1>
 
-<%= form_tag create_monthly_mains_path, method: :post do %>
-  <div class="field">
-    <%= label_tag :year %>
-    <%= select_tag :year, options_for_select(@years, Date.current.year) %>
-  </div>
+<%= form_tag create_monthly_mains_path, method: :post, class: 'w-50 mx-auto' do %>
+  <div class="form-group">
+    <h3><%= label_tag :year, nil, class: 'form-label' %></h3>
+    <%= select_tag :year, options_for_select(@years, Date.current.year), class: 'form-control', id: 'yearSelect' %>
+  </div><br><br>
 
-  <div class="field">
-    <%= label_tag :month %>
-    <%= select_tag :month, options_for_select(@months, Date.current.month) %>
+  <div class="form-group">
+    <h3><%= label_tag :month, nil, class: 'form-label' %></h3>
+    <%= select_tag :month, options_for_select(@months, Date.current.month), class: 'form-control', id: 'monthSelect' %>
   </div>
 
   <div class="actions">
-    <%= submit_tag "Create Monthly Records" %>
+    <%= submit_tag "Create Monthly Records", class: 'btn btn-primary' %>
   </div>
 <% end %>
