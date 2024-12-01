@@ -105,3 +105,15 @@
     </table>
   </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const selectAll = document.getElementById('select-all');
+  const checkboxes = document.querySelectorAll('.main-checkbox');
+
+  selectAll.addEventListener('change', function() {
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = selectAll.checked;
+    });
+  });
+});
+</script> 
