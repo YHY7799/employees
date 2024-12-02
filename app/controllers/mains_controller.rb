@@ -71,6 +71,24 @@ class MainsController < ApplicationController
     end
   end
 
+  def mark_selected_fully_paid
+    if params[:main_ids].present?
+      selected_mains = Main.where(id: params[:main_ids])
+      
+      selected_mains.each do |main|
+        main.mark_fully_paid! unless main.fully_paid?
+      end
+  
+      redirect_to mains_path(year: params[:year], month: params[:month]), 
+                  notice: "The selected employees's salaries have been marked as paid for this month."
+    else
+      redirect_to mains_path(year: params[:year], month: params[:month]), 
+                  alert: "No employees were selected."
+    end
+  end
+  
+  
+
   def destroy
     @main.destroy!
     redirect_to mains_url, notice: 'Record was successfully deleted.'

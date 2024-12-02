@@ -27,6 +27,8 @@ class DebitsController < ApplicationController
     end
   end
 
+
+
   def update
     if @debit.update(debit_params)
       redirect_to @main, notice: 'Debit was successfully updated.'

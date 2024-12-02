@@ -3,9 +3,12 @@ Rails.application.routes.draw do
   root "employees#index"
   
   resources :mains do
-    resources :debits, except: [:mark_multiple_paid] do
+    collection do
+      post :mark_selected_fully_paid
+    end
+  
+    resources :debits do
        post 'mark_fully_paid', on: :collection
-       post 'mark_multiple_paid', on: :collection
       end
     resources :overtimes
     resources :opayments

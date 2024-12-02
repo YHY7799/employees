@@ -18,7 +18,7 @@
   <!-- Filters -->
   <div class="filter-wrapper bg-white border rounded p-3 mb-4">
     <h5 class="text-center text-primary mb-3">
-      <i class="bi bi-calendar-check me-2"></i>Filter Data
+      <i class="bi bi-calendar-check me-2"></i>Select The Date
     </h5>
     <%= form_tag mains_path, method: :get, class: 'filter-form row g-2 justify-content-center' do %>
       <div class="col-md-4">
@@ -41,6 +41,7 @@
   <!-- Employee Table -->
   <h5 class="text-center mb-4">Employee Table for: <%= @current_year %> <%= Date::MONTHNAMES[@current_month] %></h5>
   <div class="table-responsive">
+  <%= form_with url: mark_selected_fully_paid_mains_path, method: :post, local: true do %>
     <table class="table table-bordered table-striped">
       <thead>
         <tr class="table-primary text-center">
@@ -67,7 +68,7 @@
               <% if main.fully_paid? %>
                 <span class="badge bg-success">Paid</span>
               <% else %>
-                <%= check_box_tag 'main_id[]', main.id, false, class: 'main-checkbox form-check-input' %>
+                <%= check_box_tag 'main_ids[]', main.id, false, class: 'main-checkbox form-check-input' %>
               <% end %>
             </td>
             <td class="text-center"><%= counter %></td>
@@ -103,17 +104,35 @@
         </tr>
       </tfoot>
     </table>
+    <div id="mark-paid-button" style="display: none;" class=" mt-3">
+      <%= submit_tag 'Pay full salary',  class: 'btn btn-outline-success', data: { confirm: 'Are you sure you want to mark the selected employees as fully paid?' } %>
+   </div>
+  <% end %>
   </div>
 </div>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const selectAll = document.getElementById('select-all');
+document.addEventListener('DOMContentLoaded', function () {
   const checkboxes = document.querySelectorAll('.main-checkbox');
+  const selectAllCheckbox = document.getElementById('select-all');
+  const markPaidButton = document.getElementById('mark-paid-button');
 
-  selectAll.addEventListener('change', function() {
+  function toggleButtonVisibility() {
+    const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+    markPaidButton.style.display = anyChecked ? 'block' : 'none';
+  }
+
+  // Add event listeners to all checkboxes
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', toggleButtonVisibility);
+  });
+
+  // Add event listener for "Select All" checkbox
+  selectAllCheckbox.addEventListener('change', function () {
     checkboxes.forEach(checkbox => {
-      checkbox.checked = selectAll.checked;
+      checkbox.checked = selectAllCheckbox.checked;
     });
+    toggleButtonVisibility();
   });
 });
+
 </script> 
