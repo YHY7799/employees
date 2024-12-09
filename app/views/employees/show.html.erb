@@ -41,6 +41,14 @@
             <th class="text-muted">Net Salary:</th>
             <td class="fw-bold"><%= number_to_currency(@employee.total_salary, unit: "SAR ") %></td>
           </tr>
+           <tr>
+            <th class="text-muted">Email:</th>
+            <td class="fw-bold"><%= @employee.email %></td>
+          </tr>
+          <tr>
+            <th class="text-muted">Phone:</th>
+            <td class="fw-bold"><%= @employee.phone %></td>
+          </tr>
           
           
 

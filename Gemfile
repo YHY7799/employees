@@ -45,6 +45,8 @@ gem 'jquery-rails'
 gem 'stimulus_reflex'
 gem 'jquery-rails'
 gem 'jsbundling-rails', '~> 1.3', '>= 1.3.1'
+gem 'devise'
+
 
 
 

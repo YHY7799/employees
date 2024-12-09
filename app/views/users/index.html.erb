@@ -1,0 +1,49 @@
+<div class="container py-4">
+  <h1 class="mb-4 text-center text-secondary">Users Management</h1>
+
+  <div class="card border-0 shadow-sm">
+    <div class="card-body">
+      <table class="table table-bordered table-hover text-center align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Name</th>
+            <th>Joind At</th>
+            <th>Email</th>
+            <th>Business Type</th>
+            <th>Business Name</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+              <td><%= user.name %></td>
+              <td><%= user.created_at&.strftime("%B %d, %Y") %></td>
+              <td><%= user.email %></td>
+              <td><%= user.business_type %></td>
+              <td><%= user.business_name %></td>
+              <td>
+                <% if user.status == "Active" %>
+                  <span class="badge bg-success">Active</span>
+                <% elsif user.status == "Pending" %>
+                  <span class="badge bg-warning">Pending</span>
+                <% else %>
+                  <span class="badge bg-danger">Suspended</span>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to 'View', user_path(user), class: 'btn btn-outline-info btn-sm mx-1' %>
+                <%= link_to 'Edit', edit_user_path(user), class: 'btn btn-outline-warning btn-sm mx-1' %>
+                <%= link_to 'Delete', user_path(user), 
+                    method: :delete, 
+                    data: { confirm: 'Are you sure?' }, 
+                    class: 'btn btn-outline-danger btn-sm mx-1' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

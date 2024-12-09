@@ -1,0 +1,20 @@
+<%# app/views/users/pending.html.erb %>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          Registration Pending
+        </div>
+        <div class="card-body">
+          <h2>Thank You for Registering</h2>
+          <p>Your registration has been received and is currently under review.</p>
+          <p>An administrator will review your account shortly and activate it.</p>
+          <p>You will receive an email notification once your account is approved.</p>
+          
+          <%= link_to "Log Out", destroy_user_session_path, method: :delete, class: "btn btn-secondary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

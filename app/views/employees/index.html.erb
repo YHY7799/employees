@@ -1,48 +1,59 @@
 <p style="color: green"><%= notice %></p>
-<h5 class="text-center mb-4">Employees</h5>
 
-<table class="table table-bordered table-striped">
-  <thead>
-    <tr class="table-primary">
-      <th>NO</th>
-      <th>Name</th>
-      <th>Basic Salary</th>
-      <th>Allowance</th>
-      <th>Total Salary</th>
-      <th>Net Salary</th>
-      <th>Comment</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% counter = 1 %>
-    <% @employees.each do |employee| %>
-      <tr>
-        <td><%= counter %></td>
-        <td><%= employee.name %></td>
-        <td><%= number_to_currency(employee.salary, unit: "SAR ") %></td>
-        <td><%= number_to_currency(employee.allowance, unit: "SAR ") %></td>
-        <td><%= number_to_currency(employee.gross_salary, unit: "SAR ") %></td>
-        <td><%= number_to_currency(employee.total_salary, unit: "SAR ") %></td>
-        <td><%= employee.comment %></td>
-        <td class=""><%= link_to "Show", employee, class: "btn btn-sm btn-outline-primary me-2" %>
-          <%= link_to "Edit", edit_employee_path(employee), class: "btn btn-sm btn-outline-primary" %>
-        </td>
-        <% counter += 1 %>
+
+<% if @employees.empty? %>
+<h5 class="text-center mb-4"><p> welcome <strong><%= current_user.name %></strong></h5>
+  <div class="text-center mb-4">
+    <%= link_to "Create Employee", new_employee_path, class: "btn btn-primary" %>
+  </div>
+<% else %>
+<h5 class="text-center mb-4">Employees</h5>
+<div class=" mb-4">
+    <%= link_to "Create Employee", new_employee_path, class: "btn btn-outline-primary" %>
+</div>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr class="table-primary">
+        <th>NO</th>
+        <th>Name</th>
+        <th>Basic Salary</th>
+        <th>Allowance</th>
+        <th>Total Salary</th>
+        <th>Net Salary</th>
+        <th>Comment</th>
+        <th>Action</th>
       </tr>
-    <% end %>
-  </tbody>
-  <tfoot> 
-    <tr class="table-secondary fw-bold" >
-      <th >Total</th>
-      <td class="text-center">-</td>
-      <td><%= number_to_currency(@employees.sum(&:salary), unit: "SAR ") %></td>
-      <td><%= number_to_currency(@employees.sum(&:allowance), unit: "SAR ") %></td>
-      <td><%= number_to_currency(@employees.sum(&:gross_salary), unit: "SAR ") %></td>
-      <td><%= number_to_currency(@employees.sum(&:total_salary), unit: "SAR ") %></td>
-      <td class="text-center">-</td>
-      <td class="text-center">-</td>
-      
-    </tr>
-  </tfoot>
-</table>
+    </thead>
+    <tbody>
+      <% counter = 1 %>
+      <% @employees.each do |employee| %>
+        <tr>
+          <td><%= counter %></td>
+          <td><%= employee.name %></td>
+          <td><%= number_to_currency(employee.salary, unit: "SAR ") %></td>
+          <td><%= number_to_currency(employee.allowance, unit: "SAR ") %></td>
+          <td><%= number_to_currency(employee.gross_salary, unit: "SAR ") %></td>
+          <td><%= number_to_currency(employee.total_salary, unit: "SAR ") %></td>
+          <td><%= employee.comment %></td>
+          <td class="">
+            <%= link_to "Show", employee, class: "btn btn-sm btn-outline-primary me-2" %>
+            <%= link_to "Edit", edit_employee_path(employee), class: "btn btn-sm btn-outline-primary" %>
+          </td>
+          <% counter += 1 %>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr class="table-secondary fw-bold">
+        <th>Total</th>
+        <td class="text-center">-</td>
+        <td><%= number_to_currency(@employees.sum(&:salary), unit: "SAR ") %></td>
+        <td><%= number_to_currency(@employees.sum(&:allowance), unit: "SAR ") %></td>
+        <td><%= number_to_currency(@employees.sum(&:gross_salary), unit: "SAR ") %></td>
+        <td><%= number_to_currency(@employees.sum(&:total_salary), unit: "SAR ") %></td>
+        <td class="text-center">-</td>
+        <td class="text-center">-</td>
+      </tr>
+    </tfoot>
+  </table>
+<% end %>

@@ -26,6 +26,16 @@
   </div>
 
   <div class="mb-3">
+    <%= form.label :email, class: "form-label" %>
+    <%= form.text_field :email, class: "form-control", placeholder: "Enter employee email" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :phone, class: "form-label" %>
+    <%= form.text_field :phone, class: "form-control", placeholder: "Enter employee phone" %>
+  </div>
+
+  <div class="mb-3">
     <%= form.label :comment, class: "form-label" %>
     <%= form.text_area :comment, class: "form-control", rows: 3, placeholder: "Enter any comments" %>
   </div>

@@ -1,9 +1,11 @@
 class EmployeesController < ApplicationController
   before_action :set_employee, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   # GET /employees or /employees.json
   def index
-    @employees = Employee.all
+    
+    @employees = current_user.employees
   end
 
   # GET /employees/1 or /employees/1.json
@@ -14,7 +16,7 @@ class EmployeesController < ApplicationController
 
   # GET /employees/new
   def new
-    @employee = Employee.new
+    @employee = current_user.employees.build
   end
 
   # GET /employees/1/edit
@@ -23,7 +25,7 @@ class EmployeesController < ApplicationController
 
   # POST /employees or /employees.json
   def create
-    @employee = Employee.new(employee_params)
+    @employee = current_user.employees.build(employee_params)
 
     respond_to do |format|
       if @employee.save
@@ -67,6 +69,6 @@ class EmployeesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def employee_params
-      params.require(:employee).permit(:name, :salary, :allowance, :comment)
+      params.require(:employee).permit(:name, :salary, :allowance, :comment, :email, :phone)
     end
 end

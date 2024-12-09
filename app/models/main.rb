@@ -1,5 +1,5 @@
 class Main < ApplicationRecord
-  has_many :employees, dependent: :destroy, inverse_of: :main
+  has_many :employees, dependent: :destroy
   has_many :debits, dependent: :destroy, inverse_of: :main
   has_many :opayments, dependent: :destroy, inverse_of: :main
   has_many :overtimes, dependent: :destroy, inverse_of: :main

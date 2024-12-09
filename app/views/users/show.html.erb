@@ -1,0 +1,105 @@
+<% if current_user.Suspended? %>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            Account Suspended
+          </div>
+          <div class="card-body">
+            <h2>Account Access Restricted</h2>
+            <p>Your account has been suspended. Please contact support for more information.</p>
+            
+            <%= link_to "Log Out", destroy_user_session_path, method: :delete, class: "btn btn-secondary" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% elsif current_user.Pending? %>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            Registration Pending
+          </div>
+          <div class="card-body">
+            <h2>Thank You for Registering</h2>
+            <p>Your registration has been received and is currently under review.</p>
+            <p>An administrator will review your account shortly and activate it.</p>
+            <p>You will receive an email notification once your account is approved.</p>
+            
+            <%= link_to "Log Out", destroy_user_session_path, method: :delete, class: "btn btn-secondary" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% else %>
+
+
+  <!-- User Details Card -->
+  <div class="card border-0 mb-4" style="background-color: #f8f9fa;">
+    <div class="card-header bg-light text-dark">
+      <h3 class="mb-0">User Details</h3>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <h5 class="text-secondary">Name:</h5>
+          <p class="fs-5"><%= @user.name %></p>
+        </div>
+        <div class="col-md-6">
+          <h5 class="text-secondary">Joined:</h5>
+          <p class="fs-5"><%= @user.created_at&.strftime("%B %d, %Y") %></p>
+        </div>
+        <div class="col-md-6">
+          <h5 class="text-secondary">Email:</h5>
+          <p class="fs-6"><%= @user.email %></p>
+          <h5 class="text-secondary">Employees Count:</h5>
+          <p class="fs-6"><%= @employees.count %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Employee Details Card -->
+  <div class="card border-0 mb-4" style="background-color: #f8f9fa;">
+    <div class="card-header bg-light text-dark">
+      <h3 class="mb-0">Employee Details</h3>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered text-center">
+        <thead class="bg-light">
+          <tr>
+            <th>Name</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Salary</th>
+            <th>Phone</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @employees.each do |employee| %>
+            <tr>
+              <td><%= employee.name %></td>
+              <td><%= employee.email %></td>
+              <td><%= number_to_currency(employee.salary) %></td>
+              <td><%= employee.phone %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex justify-content-end mt-3">
+          <%= link_to 'Edit Profile', edit_user_registration_path, class: 'btn btn-outline-info mx-2' %>
+          <%= link_to 'Back to Users', users_path, class: 'btn btn-outline-secondary mx-2' %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

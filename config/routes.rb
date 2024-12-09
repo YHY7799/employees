@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  devise_for :users, sign_out_via: [:get, :delete]
+  resources :users, except: [:new, :create]
+  
   resources :employees 
   root "employees#index"
   

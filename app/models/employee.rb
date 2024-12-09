@@ -1,5 +1,5 @@
 class Employee < ApplicationRecord
-  
+  belongs_to :user
   WORKING_DAYS = 30
   WORKING_HOURS = 9
 
@@ -37,11 +37,12 @@ class Employee < ApplicationRecord
 
  
   
-  def self.create_monthly_snapshot(year, month)
+  def self.create_monthly_snapshot(year, month, user_id)
     transaction do
-      existing_records = Main.where(year: year, month: month).pluck(:name)
+      existing_records = Main.where(year: year, month: month, user_id: user_id).pluck(:name)
       
-      Employee.all.each do |employee|
+      # Filter employees belonging to the given user
+      Employee.where(user_id: user_id).each do |employee|
         # Skip if record already exists for this employee in this month
         next if existing_records.include?(employee.name)
         
@@ -49,13 +50,18 @@ class Employee < ApplicationRecord
           name: employee.name,
           salary: employee.salary,
           allowance: employee.allowance,
+          email: employee.email,
+          phone: employee.phone,
           comment: employee.comment,
           year: year,
-          month: month
+          month: month,
+          user_id: user_id # Associate with the current user
         )
       end
     end
   end
+  
+  
 
 
 end

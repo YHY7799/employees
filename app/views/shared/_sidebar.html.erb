@@ -1,0 +1,58 @@
+<nav class="sidebar bg-light vh-100">
+  <div class="sidebar-header text-center p-3 mb-5">
+    <a href="/">
+      <img src="<%= asset_path('flow.png') %>" width="150" height="100" alt="Logo">
+    </a>
+  </div>
+  
+  <ul class="nav flex-column">
+     
+    <% if user_signed_in? %>
+      <li class="nav-item text-center mb-5 me-3">
+          <span class="nav-link"><i class="fas fa-user"></i> <%= current_user.business_name %></span>
+      </li>
+
+      <% if current_user.admin? %>
+        <li class="nav-item mb-4">
+          <a class="nav-link d-flex align-items-center" href="/users">
+            <i class="fas fa-users me-3 px-2"></i> User Management
+          </a>
+        </li>
+      <% end %>
+      <li class="nav-item mb-4">
+        <a class="nav-link d-flex align-items-center" href="/">
+          <i class="fas fa-home  me-3 px-2"></i> Home
+        </a>
+      </li>
+      <li class="nav-item mb-4">
+        <a class="nav-link d-flex align-items-center" href="/mains">
+          <i class="fas fa-calendar-alt  me-3 px-2"></i> Records
+        </a>
+      </li>
+      <li class="nav-item mb-4">
+        <a class="nav-link d-flex align-items-center" href="/mains/new">
+          <i class="fas fa-plus-circle me-3  px-2"></i> Create a Record
+        </a>
+      </li>
+     
+      <li class="nav-item mb-4">
+        <%= link_to destroy_user_session_path, method: :delete, class: 'nav-link d-flex align-items-center' do %>
+          <i class="fas fa-sign-out-alt me-3 px-2"></i> Logout
+        <% end %>
+      </li>
+    <% else %>
+      <li class="nav-item">
+        <%= link_to new_user_registration_path, class: 'nav-link d-flex align-items-center' do %>
+          <i class="fas fa-user-plus me-3  px-2"></i> Sign Up
+        <% end %>
+      </li>
+      <li class="nav-item">
+        <%= button_to new_user_session_path, class: 'nav-link d-flex align-items-center' do %>
+          <i class="fas fa-sign-in-alt me-3  px-2"></i> Login
+        <% end %>
+      </li>
+    <% end %>
+ 
+
+  </ul>
+</nav>
