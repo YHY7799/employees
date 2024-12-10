@@ -79,6 +79,7 @@ test:
 #
 production:
   <<: *default
-  database: e4_production
+  database: employees_production
   username: yhy
   password: <%= ENV["E4_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>

@@ -1,6 +1,6 @@
 databases:
   - name: employees
-    databaseName: e4_production
+    databaseName: employees_production
     user: yhy
     plan: free
 
