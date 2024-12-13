@@ -79,7 +79,8 @@ class UsersController < ApplicationController
       :business_type, 
       :business_name, 
       :status,
-      :admin
+      :admin,
+      :profile_image
     )
   end
 end
