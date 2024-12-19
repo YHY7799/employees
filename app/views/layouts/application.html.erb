@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="My App - Your application description">
-    <meta name="author" content="Your Name">
+    <meta name="description" content="The Complete Payroll Solution for Your Business, Unlocking Your Business Potential">
+    <meta name="author" content="Yahaya Ismail">
     <meta name="theme-color" content="#007bff">
-    <title><%= content_for?(:title) ? yield(:title) : "My App" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "Payroll" %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <!-- Preload and Load Bootstrap -->
@@ -18,6 +18,12 @@
     <link rel="icon" type="image/png" href="assets/images/sytels.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <!-- Google Tag Manager -->
+      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-5DTH5SJT');</script>
     
   </head>
   <body>
@@ -44,5 +50,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DTH5SJT"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </body>
 </html>

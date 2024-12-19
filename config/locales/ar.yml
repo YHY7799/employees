@@ -1,0 +1,22 @@
+ar:
+  hello: "برنامج إدارة الرواتب"
+
+  employees:
+    welcome_message: " %{user}! ،مرحبًا"
+    create_employee: "إنشاء موظف"
+    heading: "الموظفين"
+    currency: "ر.س"
+    table:
+      no: "رقم"
+      name: "الاسم"
+      basic_salary: "الراتب الأساسي"
+      allowance: "البدل"
+      total_salary: "إجمالي الراتب"
+      net_salary: "صافي الراتب"
+      comment: "التعليق"
+      action: "الإجراء"
+      total: "الإجمالي"
+    actions:
+      show: "عرض"
+      edit: "تعديل"
+      
